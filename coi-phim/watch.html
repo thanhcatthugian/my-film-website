@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoiPhim - Đang Xem Phim</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <!-- Font Awesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Google Fonts: K2D -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=K2D:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap" rel="stylesheet">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- ====================================================================
+         MÀN HÌNH CHUYỂN CẢNH & LOADING (PAGE TRANSITION PRELOADER)
+         ==================================================================== -->
+    <div id="splash-screen">
+        <div class="top-nav-progress" id="top-nav-progress"></div>
+        <div class="splash-content">
+            <div class="splash-logo-wrapper">
+                <div class="splash-ring"></div>
+                <div class="splash-ring-inner"></div>
+                <img src="images/logo.png" alt="CoiPhim Logo" class="splash-logo-img">
+            </div>
+            <div class="splash-brand">
+                <span class="brand-coi">Coi</span><span class="brand-phim">Phim</span>
+            </div>
+            <div class="splash-message" id="splash-message">
+                <i class="fa-solid fa-spinner fa-spin" style="color: var(--color-gold); font-size: 15px;" id="splash-spinner"></i>
+                <span id="splash-text">Đang tải vui lòng chờ</span>
+                <span class="splash-dots">
+                    <span>.</span><span>.</span><span>.</span>
+                </span>
+            </div>
+            <div class="splash-progress-bar">
+                <div class="splash-progress-fill" id="splash-progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====================================================================
+         1. HEADER & THANH ĐIỀU HƯỚNG
+         ==================================================================== -->
+    <header class="site-header">
+        <div class="header-container">
+            <!-- Brand Logo CoiPhim -->
+            <a href="index.html" class="brand-logo">
+                <img src="images/logo.png" alt="CoiPhim Logo" class="brand-logo-img">
+                <div>
+                    <span class="brand-coi">Coi</span><span class="brand-phim">Phim</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> Trang Chủ</a></li>
+                <li><a href="ranking.html" class="nav-link"><i class="fa-solid fa-trophy"></i> Bảng Xếp Hạng</a></li>
+                <li><a href="index.html#catalog-section" class="nav-link"><i class="fa-solid fa-film"></i> Kho Phim</a></li>
+                <!-- Thể Loại (Đồng bộ thiết kế với Bảng Xếp Hạng & Kho Phim) -->
+                <li class="nav-dropdown-item" id="header-filter-wrap">
+                    <a href="javascript:void(0)" class="nav-link nav-dropdown-link" id="header-filter-btn" title="Danh mục thể loại phim">
+                        <i class="fa-solid fa-tags"></i>
+                        <span id="header-filter-label">Thể Loại</span>
+                        <i class="fa-solid fa-chevron-down nav-dropdown-arrow"></i>
+                    </a>
+                    <div class="header-filter-dropdown" id="header-filter-dropdown">
+                        <!-- Javascript sẽ render động danh sách thể loại vào đây -->
+                    </div>
+                </li>
+            </ul>
+
+            <!-- Header Actions -->
+            <div class="header-actions">
+                <!-- Search Box -->
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="search-input" placeholder="Tìm kiếm phim...">
+                </div>
+
+                <!-- Theme Toggle Button (Dark / Light Mode) -->
+                <button class="theme-toggle-btn" id="theme-toggle-btn" title="Chuyển chế độ Sáng / Tối">
+                    <i class="fa-solid fa-sun" id="theme-icon"></i>
+                </button>
+
+                <!-- Admin Button (Chỉ hiển thị khi Role là Admin) -->
+                <button class="btn-admin-nav" id="btn-admin-nav">
+                    <i class="fa-solid fa-shield-halved"></i> Quản Trị
+                </button>
+
+                <!-- Guest Login Button -->
+                <button class="btn-login" id="btn-open-login">
+                    <i class="fa-regular fa-user"></i> Đăng Nhập
+                </button>
+
+                <!-- User Profile Menu -->
+                <div class="user-profile-menu" id="user-profile-menu">
+                    <button class="user-avatar-btn" id="user-avatar-btn">
+                        <img src="" alt="Avatar" class="user-avatar-img" id="header-user-avatar">
+                        <span class="user-name" id="header-user-name">Người dùng</span>
+                        <span class="user-role-badge" id="header-user-role">User</span>
+                        <i class="fa-solid fa-chevron-down" style="font-size: 11px; color: var(--text-secondary);"></i>
+                    </button>
+                    <div class="user-dropdown-content" id="user-dropdown-content">
+                        <button class="dropdown-item" id="dropdown-admin-item" style="display: none;">
+                            <i class="fa-solid fa-screwdriver-wrench" style="color: var(--color-gold);"></i> Bảng Quản Trị
+                        </button>
+                        <div class="dropdown-divider" id="dropdown-admin-divider" style="display: none;"></div>
+                        <button class="dropdown-item" id="btn-logout" style="color: var(--color-ruby);">
+                            <i class="fa-solid fa-right-from-bracket"></i> Đăng Xuất
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ====================================================================
+         2. NỘI DUNG CHÍNH TRANG XEM PHIM (WATCH PAGE LAYOUT)
+         Bao gồm: Video Player, Tóm tắt dưới phim, Comment, Đánh giá,
+         Gợi ý phim liên quan & Bảng xếp hạng
+         ==================================================================== -->
+    <main class="watch-main-container">
+        <!-- Breadcrumb điều hướng -->
+        <div class="watch-breadcrumb">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Trang Chủ</a>
+            <span><i class="fa-solid fa-chevron-right"></i></span>
+            <span id="breadcrumb-category" class="breadcrumb-item-cat">Thể Loại</span>
+            <span><i class="fa-solid fa-chevron-right"></i></span>
+            <span id="breadcrumb-title" class="breadcrumb-current">Đang Xem Phim</span>
+        </div>
+
+        <div class="watch-layout-grid">
+            <!-- CỘT CHÍNH (BÊN TRÁI): VIDEO PLAYER + THÔNG TIN PHIM + BÌNH LUẬN & ĐÁNH GIÁ -->
+            <section class="watch-player-column">
+                <!-- Video Player Box -->
+                <div class="watch-player-wrapper" id="player-container">
+                    <video id="html5-video-player" controls preload="metadata" poster="">
+                        <source src="" type="video/mp4" id="html5-video-source">
+                        Trình duyệt của bạn không hỗ trợ phát thẻ video.
+                    </video>
+                    <iframe id="trailer-iframe" src="" allowfullscreen style="display: none;"></iframe>
+                </div>
+
+                <!-- Lựa chọn Server phát phim -->
+                <div class="watch-server-bar">
+                    <div class="server-bar-left">
+                        <span class="server-label"><i class="fa-solid fa-server" style="color: var(--color-gold);"></i> Chọn Nguồn Phát:</span>
+                        <button class="server-btn active" id="btn-server-main" data-source="main">
+                            <i class="fa-solid fa-play"></i> Server VIP 1 (Full HD)
+                        </button>
+                        <button class="server-btn" id="btn-server-trailer" data-source="trailer">
+                            <i class="fa-brands fa-youtube"></i> Trailer Bản Quyền
+                        </button>
+                    </div>
+                    <div class="server-bar-right">
+                        <button class="btn-action-pill" id="btn-cinema-mode" title="Mở rộng khung phát">
+                            <i class="fa-solid fa-expand"></i> Rạp Phim
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TÓM TẮT & THÔNG TIN PHIM Ở DƯỚI PHẦN PHIM -->
+                <div class="watch-movie-info-card">
+                    <div class="watch-title-row">
+                        <div>
+                            <h1 class="watch-movie-title" id="watch-movie-title">Tên Phim</h1>
+                            <div class="watch-movie-original" id="watch-movie-original">Original Title</div>
+                        </div>
+                        <div class="watch-views-badge">
+                            <i class="fa-solid fa-eye" style="color: var(--color-ruby);"></i>
+                            <span id="watch-views-count">0</span> lượt xem
+                        </div>
+                    </div>
+
+                    <!-- Meta Tags -->
+                    <div class="watch-meta-tags" id="watch-meta-tags">
+                        <span class="tag-item highlight-gold"><i class="fa-solid fa-star"></i> <span id="watch-rating-val">4.9</span> / 5</span>
+                        <span class="tag-item" id="watch-quality-tag"><i class="fa-solid fa-tv"></i> 4K Ultra HD</span>
+                        <span class="tag-item" id="watch-year-tag"><i class="fa-regular fa-calendar"></i> 2024</span>
+                        <span class="tag-item" id="watch-duration-tag"><i class="fa-regular fa-clock"></i> 120 phút</span>
+                        <span class="tag-item" id="watch-category-tag"><i class="fa-solid fa-tags"></i> Hành Động</span>
+                    </div>
+
+                    <!-- Đạo diễn, diễn viên -->
+                    <div class="watch-crew-info">
+                        <p><strong><i class="fa-solid fa-clapperboard" style="color: var(--color-gold);"></i> Đạo diễn:</strong> <span id="watch-director">Đang cập nhật</span></p>
+                        <p><strong><i class="fa-solid fa-users" style="color: var(--color-lapis);"></i> Diễn viên:</strong> <span id="watch-actors">Đang cập nhật</span></p>
+                    </div>
+
+                    <!-- Tóm tắt nội dung phim -->
+                    <div class="watch-synopsis-box">
+                        <h3><i class="fa-solid fa-align-left" style="color: var(--color-ruby);"></i> Tóm Tắt Cốt Truyện</h3>
+                        <p class="watch-synopsis-text" id="watch-description">
+                            Nội dung tóm tắt của bộ phim đang được tải...
+                        </p>
+                    </div>
+                </div>
+
+                <!-- KHU VỰC BÌNH LUẬN VÀ ĐÁNH GIÁ PHIM -->
+                <div class="comments-section" style="margin-top: 28px;">
+                    <div class="comments-header">
+                        <div class="comments-count-title">
+                            <i class="fa-regular fa-comments" style="color: var(--color-ruby);"></i>
+                            Đánh Giá & Bình Luận Phim
+                            <span id="player-comment-counter" style="color: var(--color-gold); font-size: 15px;">(0)</span>
+                        </div>
+                    </div>
+
+                    <!-- THÔNG BÁO CHO KHÁCH CHƯA ĐĂNG NHẬP -->
+                    <div class="auth-warning-box" id="auth-warning-box">
+                        <div class="auth-warning-text">
+                            <i class="fa-solid fa-lock"></i>
+                            <span>Bạn đang xem phim với tư cách <strong>Khách</strong>. Vui lòng đăng nhập để gửi bình luận và đánh giá từ 1 đến 5 sao!</span>
+                        </div>
+                        <button class="btn-auth-trigger" id="btn-trigger-login-comment">
+                            <i class="fa-solid fa-right-to-bracket"></i> Đăng Nhập Ngay
+                        </button>
+                    </div>
+
+                    <!-- KHUNG ĐÁNH GIÁ SAO VÀ BÌNH LUẬN KHI ĐÃ ĐĂNG NHẬP -->
+                    <div class="comment-form-box" id="comment-form-box">
+                        <div class="rating-input-row">
+                            <span>Đánh giá phim của bạn:</span>
+                            <div class="star-rating-select" id="star-rating-select">
+                                <i class="fa-solid fa-star active" data-rating="1"></i>
+                                <i class="fa-solid fa-star active" data-rating="2"></i>
+                                <i class="fa-solid fa-star active" data-rating="3"></i>
+                                <i class="fa-solid fa-star active" data-rating="4"></i>
+                                <i class="fa-solid fa-star active" data-rating="5"></i>
+                            </div>
+                            <span id="selected-rating-text" style="color: var(--color-gold); font-weight: 700;">(5 / 5 sao)</span>
+                        </div>
+
+                        <div class="comment-input-area">
+                            <img src="" alt="Avatar" class="comment-avatar-current" id="comment-current-avatar">
+                            <div class="comment-input-wrap">
+                                <textarea class="comment-textarea" id="comment-text-input" placeholder="Viết cảm nghĩ hoặc nhận xét của bạn về bộ phim này..."></textarea>
+                                <button class="comment-submit-btn" id="btn-submit-comment">
+                                    <i class="fa-solid fa-paper-plane"></i> Gửi Đánh Giá
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DANH SÁCH BÌNH LUẬN -->
+                    <div class="comments-list" id="comments-list-container">
+                        <!-- Render động bằng JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- CỘT PHỤ (BÊN PHẢI): GỢI Ý PHIM LIÊN QUAN & BẢNG XẾP HẠNG -->
+            <aside class="watch-sidebar-column">
+                <!-- KHỐI GỢI Ý PHIM LIÊN QUAN -->
+                <div class="watch-sidebar-card">
+                    <div class="sidebar-heading">
+                        <div class="section-indicator"></div>
+                        <h3><i class="fa-solid fa-film" style="color: var(--color-gold);"></i> Phim Cùng Thể Loại</h3>
+                    </div>
+                    <div class="related-movies-list" id="related-movies-list">
+                        <!-- Render các phim cùng thể loại bằng JS -->
+                    </div>
+                </div>
+
+                <!-- KHỐI BẢNG XẾP HẠNG THỊNH HÀNH -->
+                <div class="watch-sidebar-card" style="margin-top: 24px;">
+                    <div class="sidebar-heading">
+                        <div class="section-indicator" style="background: linear-gradient(180deg, var(--color-ruby), var(--color-gold));"></div>
+                        <h3><i class="fa-solid fa-crown" style="color: var(--color-gold);"></i> Bảng Xếp Hạng</h3>
+                    </div>
+
+                    <!-- Tabs bảng xếp hạng sidebar: Ngày, Tháng, Mùa -->
+                    <div class="sidebar-ranking-tabs">
+                        <button class="sidebar-tab-btn active" data-period="today">Hôm Nay</button>
+                        <button class="sidebar-tab-btn" data-period="month">Tháng</button>
+                        <button class="sidebar-tab-btn" data-period="season">Mùa</button>
+                    </div>
+
+                    <div class="sidebar-ranking-list" id="sidebar-ranking-list">
+                        <!-- Render bảng xếp hạng bằng JS -->
+                    </div>
+
+                    <!-- Nút xem bảng xếp hạng chi tiết -->
+                    <a href="ranking.html" class="btn-ranking-view-all">
+                        <i class="fa-solid fa-trophy"></i> Xem Bảng Xếp Hạng Đầy Đủ <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- ====================================================================
+         3. MODAL ĐĂNG NHẬP / ĐĂNG KÝ
+         ==================================================================== -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="auth-modal-card">
+            <button class="modal-close-btn" id="modal-auth-close" title="Đóng">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Tabs Chuyển Đổi Đăng Nhập / Đăng Ký -->
+            <div class="auth-modal-tabs">
+                <button class="auth-tab-btn active" id="tab-login-btn">Đăng Nhập</button>
+                <button class="auth-tab-btn" id="tab-register-btn">Đăng Ký Tài Khoản</button>
+            </div>
+
+            <!-- Form Đăng Nhập -->
+            <form id="form-login">
+                <div class="form-group">
+                    <label for="login-username"><i class="fa-regular fa-user"></i> Tên đăng nhập</label>
+                    <input type="text" id="login-username" class="form-control" placeholder="Nhập tên đăng nhập..." required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="login-password"><i class="fa-solid fa-lock"></i> Mật khẩu</label>
+                    <input type="password" id="login-password" class="form-control" placeholder="Nhập mật khẩu..." required autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn-form-submit">
+                    <i class="fa-solid fa-right-to-bracket"></i> Đăng Nhập
+                </button>
+
+                <!-- Gợi ý tài khoản demo -->
+                <div class="demo-account-hint">
+                    <i class="fa-solid fa-circle-info" style="color: var(--color-gold);"></i> <strong>Tài khoản Demo sẵn có:</strong><br>
+                    • <strong>Admin:</strong> <code>admin</code> | Mật khẩu: <code>123</code><br>
+                    • <strong>Member:</strong> <code>user</code> | Mật khẩu: <code>123</code>
+                </div>
+            </form>
+
+            <!-- Form Đăng Ký -->
+            <form id="form-register" style="display: none;">
+                <div class="form-group">
+                    <label for="register-fullname"><i class="fa-solid fa-signature"></i> Họ và tên</label>
+                    <input type="text" id="register-fullname" class="form-control" placeholder="Ví dụ: Nguyễn Văn A..." required>
+                </div>
+                <div class="form-group">
+                    <label for="register-username"><i class="fa-regular fa-user"></i> Tên đăng nhập</label>
+                    <input type="text" id="register-username" class="form-control" placeholder="Tên đăng nhập không dấu..." required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="register-password"><i class="fa-solid fa-lock"></i> Mật khẩu</label>
+                    <input type="password" id="register-password" class="form-control" placeholder="Tạo mật khẩu..." required autocomplete="new-password">
+                </div>
+                <button type="submit" class="btn-form-submit" style="background: linear-gradient(135deg, var(--color-lapis), var(--color-lapis-dark));">
+                    <i class="fa-solid fa-user-plus"></i> Tạo Tài Khoản Mới
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast container -->
+    <div id="toast-container"></div>
+
+    <!-- ====================================================================
+         4. FOOTER
+         ==================================================================== -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <a href="index.html" class="brand-logo" style="margin-bottom: 12px;">
+                    <img src="images/logo.png" alt="CoiPhim Logo" class="brand-logo-img">
+                    <div>
+                        <span class="brand-coi">Coi</span><span class="brand-phim">Phim</span>
+                    </div>
+                </a>
+                <p style="font-size: 13.5px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 14px;">
+                    Nền tảng xem phim trực tuyến hàng đầu với âm thanh sống động, hình ảnh sắc nét chuẩn 4K Ultra HD. Cập nhật liên tục các siêu phẩm điện ảnh Việt Nam và quốc tế mới nhất.
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Khám Phá</h4>
+                <ul>
+                    <li><a href="index.html#catalog-section">Phim Hành Động</a></li>
+                    <li><a href="index.html#catalog-section">Phim Viễn Tưởng</a></li>
+                    <li><a href="index.html#catalog-section">Phim Kinh Dị</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Bảng Xếp Hạng</h4>
+                <ul>
+                    <li><a href="index.html#ranking-section">Top Xem Trong Ngày</a></li>
+                    <li><a href="index.html#ranking-section">Top Xem Trong Tháng</a></li>
+                    <li><a href="index.html#ranking-section">Top Xem Trong Mùa</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Hỗ Trợ & Bản Quyền</h4>
+                <ul>
+                    <li><a href="javascript:void(0)">Điều khoản sử dụng</a></li>
+                    <li><a href="javascript:void(0)">Chính sách bảo mật</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 <strong>CoiPhim</strong>. Bản quyền thuộc về đội ngũ admin của CoiPhim. Trang web xem phim miễn phí dành cho người Việt</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/page-transition.js"></script>
+    <script src="js/watch.js"></script>
+    <script src="js/the-watcher.js"></script>
+</body>
+</html>
