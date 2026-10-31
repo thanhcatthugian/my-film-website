@@ -917,6 +917,10 @@ document.addEventListener("DOMContentLoaded", () => {
             if (userProfileMenu) userProfileMenu.style.display = "none";
             if (btnAdminNav) btnAdminNav.style.display = "none";
         }
+
+        if (typeof window.updateMobileDrawerAuth === "function") {
+            window.updateMobileDrawerAuth();
+        }
     }
 
     function initAuthModal() {

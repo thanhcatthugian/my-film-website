@@ -116,9 +116,83 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- Mobile Hamburger Menu Button -->
+                <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Mở Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
             </div>
         </div>
     </header>
+
+    <!-- MOBILE NAVIGATION DRAWER (CHO ĐIỆN THOẠI & TABLET) -->
+    <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+        <div class="mobile-drawer-overlay" id="mobile-drawer-overlay"></div>
+        <div class="mobile-drawer-panel">
+            <div class="mobile-drawer-header">
+                <a href="index.html" class="brand-logo">
+                    <img src="images/logo.png" alt="CoiPhim Logo" class="brand-logo-img">
+                    <div>
+                        <span class="brand-coi">Coi</span><span class="brand-phim">Phim</span>
+                    </div>
+                </a>
+                <button class="mobile-drawer-close" id="mobile-drawer-close" aria-label="Đóng menu">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Ô tìm kiếm nhanh trên Mobile -->
+            <div class="mobile-search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="mobile-search-input" placeholder="Tìm tên phim, diễn viên...">
+            </div>
+
+            <!-- Danh sách menu điều hướng -->
+            <ul class="mobile-drawer-links">
+                <li>
+                    <a href="index.html" class="mobile-drawer-link" id="mob-nav-home">
+                        <i class="fa-solid fa-house"></i> Trang Chủ
+                    </a>
+                </li>
+                <li>
+                    <a href="ranking.html" class="mobile-drawer-link" id="mob-nav-ranking">
+                        <i class="fa-solid fa-trophy" style="color: var(--color-gold);"></i> Bảng Xếp Hạng
+                    </a>
+                </li>
+                <li>
+                    <a href="index.html#catalog-section" class="mobile-drawer-link" id="mob-nav-catalog">
+                        <i class="fa-solid fa-film"></i> Kho Phim
+                    </a>
+                </li>
+
+                <!-- Thể Loại Accordion -->
+                <li class="mobile-drawer-accordion" id="mobile-drawer-accordion">
+                    <button class="mobile-accordion-toggle" id="mobile-accordion-toggle">
+                        <span><i class="fa-solid fa-tags"></i> Thể Loại Phim</span>
+                        <i class="fa-solid fa-chevron-down mobile-accordion-arrow"></i>
+                    </button>
+                    <div class="mobile-accordion-content" id="mobile-genres-list">
+                        <!-- JS render động các thể loại vào đây -->
+                    </div>
+                </li>
+            </ul>
+
+            <!-- Phần chân của Drawer: Trạng thái User & Theme -->
+            <div class="mobile-drawer-footer">
+                <div class="mobile-theme-row">
+                    <span><i class="fa-solid fa-circle-half-stroke"></i> Giao diện</span>
+                    <button class="mobile-theme-toggle" id="mobile-theme-toggle">
+                        <i class="fa-solid fa-sun" id="mobile-theme-icon"></i>
+                        <span id="mobile-theme-text">Chế độ sáng</span>
+                    </button>
+                </div>
+
+                <div class="mobile-user-section" id="mobile-user-section">
+                    <!-- JS render nút Đăng Nhập hoặc Profile -->
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- ====================================================================
          2. NỘI DUNG CHÍNH TRANG XEM PHIM (WATCH PAGE LAYOUT)

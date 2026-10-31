@@ -576,6 +576,11 @@ function updateHeaderAuthUI() {
     if (typeof window.updateWatcherAuthState === "function") {
         window.updateWatcherAuthState();
     }
+
+    // Đồng bộ trạng thái đăng nhập cho Mobile Drawer
+    if (typeof window.updateMobileDrawerAuth === "function") {
+        window.updateMobileDrawerAuth();
+    }
 }
 
 function setupAuthModalEvents() {
